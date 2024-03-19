@@ -82,15 +82,39 @@ const login = async (req,res,next) => {
 }
 
 const logout = async (req,res,next) => {
-    
+    try{
+        res.status(200)
+                      .cookie("token","",{ expires:new Date(Date.now()),httpOnly:true})
+                      .json({
+                        success:true,
+                        message:"User loggedOut"
+                    })
+    } catch (error) {
+        res.status(400).json({
+            success:false,
+            message:error.message
+        })
+    }
 }
 
 const update = async (req,res,next) => {
-    
+    k
 }
 
-const userProfile = async (req,res,next) => {
-    
+const userProfile = async (req,res) => {
+    try {
+        const userId = req.user;
+        const user = await User.findById(userId);
+        res.status(200).json({
+            success:true,
+            user
+        })
+    } catch (error) {
+        res.status(400).json({
+            success:false,
+            message:error.message
+        })
+    }
 }
 
 export {
